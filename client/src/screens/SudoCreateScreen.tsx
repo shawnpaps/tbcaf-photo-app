@@ -1,3 +1,5 @@
+import { SiInstagram } from 'react-icons/si';
+
 interface SudoCreateScreenProps {
 	onNavigate: (screen: string) => void;
 }
@@ -166,6 +168,16 @@ const SudoCreateScreen = ({ onNavigate }: SudoCreateScreenProps) => {
 									className="text-amber-300 hover:text-amber-200 underline transition-colors">
 									contact@sudocreate.studio
 								</a>
+							</p>
+							<p className="flex items-center">
+								<SiInstagram className="text-amber-300 mr-2" size={16} />
+								<button
+									className="text-amber-300 hover:text-amber-200 underline transition-colors"
+									onClick={() =>
+										window.open('https://instagram.com/sudo.create', '_blank')
+									}>
+									@sudo.create
+								</button>
 							</p>
 						</div>
 					</div>

@@ -17,10 +17,18 @@ const HomeScreen = ({ onNavigate }: HomeScreenProps) => {
 				<span className="text-3xl">2025</span>
 			</h1>
 			<div className="flex items-center justify-center gap-2 mt-4">
-				<a className="btn btn-circle glass btn-lg">
+				<a
+					href="https://instagram.com/tbcaffl"
+					target="_blank"
+					referrerPolicy="no-referrer"
+					className="btn btn-circle glass btn-lg">
 					<SiInstagram />
 				</a>
-				<a className="btn btn-circle glass btn-lg">
+				<a
+					href="https://facebook.com/tbcaffl"
+					target="_blank"
+					referrerPolicy="no-referrer"
+					className="btn btn-circle glass btn-lg">
 					<SiFacebook />
 				</a>
 			</div>
