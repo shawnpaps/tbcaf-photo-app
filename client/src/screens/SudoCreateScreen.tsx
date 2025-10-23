@@ -1,197 +1,347 @@
-import { SiInstagram } from 'react-icons/si';
+import React, { useEffect, useState } from "react";
+import { SiInstagram } from "react-icons/si";
+import { FiChevronLeft, FiExternalLink } from "react-icons/fi";
 
 interface SudoCreateScreenProps {
 	onNavigate: (screen: string) => void;
 }
 
-const SudoCreateScreen = ({ onNavigate }: SudoCreateScreenProps) => {
+/**
+ * Tiny interactive DemoToggle:
+ * - Simulates a multi-step "automation" workflow with a progress bar and steps.
+ * - Purely UI/local — no network calls.
+ */
+const DemoToggle: React.FC = () => {
+	const [running, setRunning] = useState(false);
+	const [step, setStep] = useState<number | null>(null);
+	const [progress, setProgress] = useState(0);
+
+	const steps = ["Queueing", "Processing images", "Optimizing & publishing"];
+
+	const start = () => {
+		setRunning(true);
+		setStep(0);
+		setProgress(0);
+	};
+
+	const stop = () => {
+		setRunning(false);
+		setStep(null);
+		setProgress(0);
+	};
+
+	useEffect(() => {
+		if (!running || step === null) return;
+
+		let stepProgress = 0;
+		const stepDuration = 1200; // ms per step
+		const tick = 80; // update interval in ms
+
+		// these are declared here so cleanup can clear them
+		let intervalId = 0 as unknown as number;
+		let advanceTimeout: number | undefined;
+		let finishTimeout: number | undefined;
+		let resetTimeout: number | undefined;
+
+		intervalId = window.setInterval(() => {
+			stepProgress += (tick / stepDuration) * 100;
+
+			const base = (step / steps.length) * 100;
+			const perStep = 100 / steps.length;
+			const overall = Math.min(
+				base + (stepProgress / 100) * perStep,
+				base + perStep,
+			);
+
+			setProgress(Math.round(overall));
+
+			if (stepProgress >= 100) {
+				window.clearInterval(intervalId);
+
+				if (step + 1 < steps.length) {
+					advanceTimeout = window.setTimeout(() => {
+						setStep((s) => (s !== null ? s + 1 : null));
+					}, 280);
+				} else {
+					finishTimeout = window.setTimeout(() => {
+						setProgress(100);
+						setRunning(false);
+						setStep(null);
+						// show final state briefly, then reset progress
+						resetTimeout = window.setTimeout(() => {
+							setProgress(0);
+						}, 800);
+					}, 380);
+				}
+			}
+		}, tick);
+
+		return () => {
+			window.clearInterval(intervalId);
+			if (advanceTimeout) window.clearTimeout(advanceTimeout);
+			if (finishTimeout) window.clearTimeout(finishTimeout);
+			if (resetTimeout) window.clearTimeout(resetTimeout);
+		};
+	}, [running, step, steps.length]);
+
 	return (
-		<div className="p-5">
-			<div className="flex items-center justify-between mb-6">
-				<button
-					className="btn btn-circle btn-ghost text-white"
-					onClick={() => onNavigate('home')}>
-					<svg
-						className="w-6 h-6"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24">
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							strokeWidth={2}
-							d="M15 19l-7-7 7-7"
+		<div className="flex items-center gap-3">
+			<div className="flex-1">
+				<div className="text-xs text-white/70">
+					{running
+						? step !== null
+							? `${steps[step]} • ${progress}%`
+							: "Starting..."
+						: "Idle"}
+				</div>
+
+				<div className="mt-2 w-full max-w-xs">
+					<div className="h-2 bg-white/10 rounded-full overflow-hidden">
+						<div
+							className="h-full bg-amber-300 transition-all ease-linear"
+							style={{ width: `${progress}%` }}
 						/>
-					</svg>
-				</button>
-				<h1 className="text-2xl font-semibold text-white text-center flex-1">
-					sudo.create
-				</h1>
-				<div className="w-12"></div> {/* Spacer for centering */}
+					</div>
+				</div>
 			</div>
 
-			<div className="max-w-4xl mx-auto">
-				<div className="bg-white/10 backdrop-blur-sm rounded-lg p-8 space-y-8">
-					{/* Header Section */}
-					<div className="text-center">
-						<h2 className="text-4xl font-bold text-white mb-4">sudo.create</h2>
-						<h3 className="text-2xl font-semibold text-amber-300 mb-6">
-							Creative Technology Studio ⚡
-						</h3>
-						<p className="text-lg text-white/90 leading-relaxed">
-							Building digital systems that scale creative brands.
-						</p>
-					</div>
+			<div className="w-28">
+				{!running ? (
+					<button className="btn btn-sm btn-primary w-full" onClick={start}>
+						Start
+					</button>
+				) : (
+					<button className="btn btn-sm btn-ghost w-full" onClick={stop}>
+						Stop
+					</button>
+				)}
+			</div>
+		</div>
+	);
+};
 
-					{/* Main Description */}
-					<div className="text-white/90 space-y-4">
-						<p className="text-lg leading-relaxed">
-							sudo.create merges the precision of engineering with the emotion
-							of artistry — crafting{' '}
-							<span className="font-semibold text-amber-300">web systems</span>,{' '}
-							<span className="font-semibold text-amber-300">software</span>,
-							and{' '}
-							<span className="font-semibold text-amber-300">automation</span>{' '}
-							that help creative brands grow with intention.
-						</p>
-						<p className="text-lg leading-relaxed">
-							We design the{' '}
-							<span className="font-semibold text-amber-300">
-								digital infrastructure
-							</span>{' '}
-							behind modern creativity — systems that make creative work flow
-							smoother, faster, and smarter.
-						</p>
-					</div>
+const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
+	return (
+		<div className="min-h-screen bg-neutral-900 text-white text-sm antialiased">
+			{/* Top bar */}
+			<header className="px-4 pt-5 pb-3 flex items-center gap-3">
+				<button
+					aria-label="Back to Home"
+					className="btn btn-ghost btn-circle p-2 text-white"
+					onClick={() => onNavigate("home")}
+				>
+					<FiChevronLeft size={18} />
+				</button>
 
-					{/* What We Do Section */}
-					<div className="border-l-4 border-amber-400 pl-6">
-						<h4 className="text-xl font-bold text-white mb-4">What We Do</h4>
-						<ul className="space-y-3 text-white/90">
-							<li className="flex items-start">
-								<span className="text-amber-300 mr-3">•</span>
-								<div>
-									<span className="font-semibold">Web Development:</span>{' '}
-									Next.js / Webflow / custom digital ecosystems
-								</div>
-							</li>
-							<li className="flex items-start">
-								<span className="text-amber-300 mr-3">•</span>
-								<div>
-									<span className="font-semibold">Automation & Workflows:</span>{' '}
-									Notion, Zapier, Make, AI-assisted content systems
-								</div>
-							</li>
-							<li className="flex items-start">
-								<span className="text-amber-300 mr-3">•</span>
-								<div>
-									<span className="font-semibold">Software Development:</span>{' '}
-									Scalable tools & products for creative teams
-								</div>
-							</li>
-							<li className="flex items-start">
-								<span className="text-amber-300 mr-3">•</span>
-								<div>
-									<span className="font-semibold">
-										Creative Systems Architecture:
-									</span>{' '}
-									End-to-end design of how creative businesses operate
-								</div>
-							</li>
-						</ul>
+				<div className="flex-1 text-center">
+					<div className="text-base font-semibold">
+						☕ sudo.create × Tampa Bay Coffee &amp; Art Festival
 					</div>
+				</div>
 
-					{/* Philosophy Section */}
-					<div className="border-l-4 border-green-400 pl-6">
-						<h4 className="text-xl font-bold text-white mb-4">
-							Our Philosophy
-						</h4>
-						<p className="text-white/90 mb-4 leading-relaxed">
-							We believe great technology should{' '}
-							<em className="text-amber-300">feel</em> creative.
-						</p>
-						<p className="text-white/90 mb-4 leading-relaxed">
-							Every system we build is engineered for clarity, beauty, and scale
-							— helping creators and studios work smarter without losing soul.
-						</p>
-						<blockquote className="italic text-amber-300 text-lg border-l-2 border-amber-300 pl-4">
-							"Beautiful ideas deserve beautiful infrastructure." — sudo.create
-						</blockquote>
-					</div>
+				<div className="w-10" />
+			</header>
 
-					{/* Current Focus Section */}
-					<div className="border-l-4 border-blue-400 pl-6">
-						<h4 className="text-xl font-bold text-white mb-4">Current Focus</h4>
-						<ul className="space-y-2 text-white/90">
-							<li className="flex items-start">
-								<span className="text-blue-300 mr-3">•</span>
-								Building automation and workflow systems for creative brands
-							</li>
-							<li className="flex items-start">
-								<span className="text-blue-300 mr-3">•</span>
-								Designing web platforms that blend design + function
-							</li>
-							<li className="flex items-start">
-								<span className="text-blue-300 mr-3">•</span>
-								Experimenting inside{' '}
-								<span className="font-semibold text-blue-300">
-									sudo.create Labs
-								</span>{' '}
-								— our R&D space for creative tools and experiences
-							</li>
-						</ul>
-					</div>
+			<main className="px-4 pb-28">
+				{/* Hero */}
+				<section className="mt-2 mb-4">
+					<h2 className="text-xl font-bold">Craft. Code. Creativity.</h2>
 
-					{/* Work With Us Section */}
-					<div className="border-l-4 border-purple-400 pl-6">
-						<h4 className="text-xl font-bold text-white mb-4">Work With Us</h4>
-						<p className="text-white/90 mb-4 leading-relaxed">
-							We collaborate with creatives, studios, and founders who want to
-							scale their art through intelligent systems.
-						</p>
-						<div className="space-y-2 text-white/90">
-							<p>📍 Based in Plant City, Florida — working worldwide 🌍</p>
-							<p>
-								🔗{' '}
-								<button
-									className="text-amber-300 hover:text-amber-200 underline transition-colors"
-									onClick={() =>
-										window.open('https://sudocreate.studio', '_blank')
-									}>
-									Visit sudo.create
-								</button>
+					<p className="mt-3 text-white/90 leading-relaxed">
+						At <strong>sudo.create</strong>, we help coffee roasters, creative
+						brands, and small studios build beautiful, high-performance digital
+						experiences — designed to feel as handcrafted as the work you pour
+						into every cup, canvas, or creation.
+					</p>
+
+					<hr className="my-4 border-t border-white/10" />
+				</section>
+
+				{/* Who We Are */}
+				<section className="mb-4">
+					<h3 className="text-lg font-bold">🌱 Who We Are</h3>
+					<p className="mt-2 text-white/90 leading-relaxed">
+						We’re a <strong>creative technology studio</strong> that bridges{" "}
+						<strong>art, engineering, and automation</strong>.<br />
+						Our team blends design intuition with technical mastery to help
+						creative entrepreneurs scale their craft without losing their soul.
+					</p>
+
+					<p className="mt-2 text-white/90 leading-relaxed">
+						We believe technology should{" "}
+						<strong>amplify your creativity</strong>, not complicate it.
+					</p>
+
+					<hr className="my-4 border-t border-white/10" />
+				</section>
+
+				{/* What We Do */}
+				<section className="mb-4">
+					<h3 className="text-lg font-bold">💡 What We Do</h3>
+
+					<div className="mt-3 space-y-3">
+						<div>
+							<h4 className="font-semibold">1. Creative Business Launch</h4>
+							<p className="text-white/85 mt-1">
+								Launch your craft online with purpose-built digital systems:
 							</p>
-							<p>
-								📧{' '}
-								<a
-									href="mailto:contact@sudo.create"
-									className="text-amber-300 hover:text-amber-200 underline transition-colors">
-									contact@sudocreate.studio
-								</a>
+							<ul className="list-disc list-inside mt-2 text-white/80">
+								<li>Brand websites &amp; online stores</li>
+								<li>Booking, ordering, or subscription systems</li>
+								<li>
+									Workflow automation that saves time &amp; keeps you focused on
+									the craft
+								</li>
+							</ul>
+							<p className="mt-2 text-white/80 italic">
+								Perfect for coffee roasters, artists, photographers, and makers.
 							</p>
-							<p className="flex items-center">
-								<SiInstagram className="text-amber-300 mr-2" size={16} />
-								<button
-									className="text-amber-300 hover:text-amber-200 underline transition-colors"
-									onClick={() =>
-										window.open('https://instagram.com/sudo.create', '_blank')
-									}>
-									@sudo.create
-								</button>
+						</div>
+
+						<div>
+							<h4 className="font-semibold mt-3">2. Studio Partner Program</h4>
+							<p className="text-white/85 mt-1">
+								For agencies, collectives, and studios who need a technical
+								co-creator:
+							</p>
+							<ul className="list-disc list-inside mt-2 text-white/80">
+								<li>Frontend &amp; backend development</li>
+								<li>Integrations, APIs, and custom tools</li>
+								<li>AI &amp; automation to streamline production</li>
+							</ul>
+							<p className="mt-2 text-white/80 italic">
+								Think of us as your engineering partner — not just a vendor.
+							</p>
+						</div>
+
+						<div>
+							<h4 className="font-semibold mt-3">3. Innovation Lab</h4>
+							<p className="text-white/85 mt-1">
+								Exploring new intersections of creativity and tech:
+							</p>
+							<ul className="list-disc list-inside mt-2 text-white/80">
+								<li>Interactive experiences</li>
+								<li>AI-driven storytelling</li>
+								<li>Immersive brand activations</li>
+								<li>Creative tech prototypes</li>
+							</ul>
+							<p className="mt-2 text-white/80 italic">
+								Where experimentation meets execution.
 							</p>
 						</div>
 					</div>
 
-					{/* Back Button */}
-					<div className="text-center pt-6">
-						<button
-							className="btn btn-primary btn-lg"
-							onClick={() => onNavigate('home')}>
-							Back to TBCAF Home
-						</button>
+					<hr className="my-4 border-t border-white/10" />
+				</section>
+
+				{/* Why It Matters */}
+				<section className="mb-6">
+					<h3 className="text-lg font-bold">☕ Why It Matters</h3>
+					<p className="mt-2 text-white/90 leading-relaxed">
+						Like a perfect roast or a hand-thrown mug,
+						<br />
+						<strong>digital craftsmanship</strong> takes care, iteration, and
+						artistry.
+					</p>
+
+					<p className="mt-2 text-white/90 leading-relaxed">
+						We bring that same approach to every project — balancing creativity,
+						technology, and authenticity to help you build something truly
+						special.
+					</p>
+
+					<hr className="my-4 border-t border-white/10" />
+				</section>
+
+				{/* Let’s Brew Something Together */}
+				<section className="mb-6">
+					<h3 className="text-lg font-bold">
+						🔗 Let’s Brew Something Together
+					</h3>
+
+					<div className="mt-3 space-y-2 text-white/90">
+						<div>
+							<strong>Website:</strong>{" "}
+							<a
+								href="https://sudocreate.studio"
+								className="text-amber-300 hover:underline inline-flex items-center gap-1"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								sudo.create <FiExternalLink size={14} />
+							</a>
+						</div>
+
+						<div>
+							<strong>Instagram:</strong>{" "}
+							<a
+								href="https://instagram.com/sudo.create"
+								className="text-amber-300 hover:underline inline-flex items-center gap-1"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<SiInstagram /> @sudo.create
+							</a>
+						</div>
+
+						<blockquote className="mt-3 text-white/80 italic border-l-2 border-white/10 pl-3">
+							Whether you’re roasting coffee, painting murals, or building a
+							brand — let’s blend your craft with code.
+						</blockquote>
 					</div>
+
+					<hr className="my-4 border-t border-white/10" />
+				</section>
+
+				{/* Demo Automation card (reintroduced) */}
+				<section className="mb-6">
+					<div className="bg-white/6 rounded-xl p-3 flex items-center justify-between">
+						<div>
+							<div className="text-xs text-white/70">Demo Automation</div>
+							<div className="text-sm font-medium">Publishing Workflow</div>
+						</div>
+						<DemoToggle />
+					</div>
+				</section>
+
+				{/* Footer */}
+				<section className="mb-8">
+					<p className="text-white/80">
+						🖤 Made for Creators. Built by sudo.create.
+					</p>
+				</section>
+			</main>
+
+			{/* Bottom nav (mobile friendly) */}
+			<nav className="fixed bottom-0 left-0 right-0 bg-neutral-800/70 backdrop-blur-sm border-t border-white/6 p-3">
+				<div className="max-w-md mx-auto flex items-center justify-between">
+					<a
+						href="mailto:spapineau@spaptechnology.com"
+						className="text-amber-300 font-medium"
+						rel="noopener noreferrer"
+					>
+						Start a project
+					</a>
+
+					<a
+						href="https://instagram.com/sudo.create"
+						className="text-white/90 font-medium inline-flex items-center gap-2"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						<SiInstagram /> Instagram
+					</a>
+
+					<a
+						href="https://sudocreate.studio"
+						className="text-white/90 font-medium"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Website
+					</a>
 				</div>
-			</div>
+			</nav>
 		</div>
 	);
 };
