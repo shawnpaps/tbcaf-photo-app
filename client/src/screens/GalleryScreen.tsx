@@ -82,7 +82,7 @@ const GalleryScreen = ({ onNavigate }: GalleryScreenProps) => {
 							className="btn btn-primary w-full"
 							onClick={() =>
 								window.open(
-									"https://photos.sudocreate.studio/-tampabaycoffeeartsfestivalgroupphotos/gallery",
+									"https://photos.sudocreate.studio/-tampabaycoffeeartsfestivalgroupphotos/login?&redirect_back=%2f-tampabaycoffeeartsfestivalgroupphotos%2fgallery",
 									"_blank",
 								)
 							}
