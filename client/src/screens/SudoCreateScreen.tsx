@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { SiInstagram } from "react-icons/si";
 import { FiChevronLeft, FiExternalLink } from "react-icons/fi";
+import { motion } from "motion/react";
 
 interface SudoCreateScreenProps {
 	onNavigate: (screen: string) => void;
@@ -124,14 +125,21 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 	return (
 		<div className="min-h-screen bg-neutral-900 text-white text-sm antialiased">
 			{/* Top bar */}
-			<header className="px-4 pt-5 pb-3 flex items-center gap-3">
-				<button
+			<motion.header
+				className="px-4 pt-5 pb-3 flex items-center gap-3"
+				initial={{ opacity: 0, y: -20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.5 }}
+			>
+				<motion.button
 					aria-label="Back to Home"
 					className="btn btn-ghost btn-circle p-2 text-white"
 					onClick={() => onNavigate("home")}
+					whileHover={{ scale: 1.1 }}
+					whileTap={{ scale: 0.9 }}
 				>
 					<FiChevronLeft size={18} />
-				</button>
+				</motion.button>
 
 				<div className="flex-1 text-center">
 					<div className="text-base font-semibold">
@@ -140,11 +148,16 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 				</div>
 
 				<div className="w-10" />
-			</header>
+			</motion.header>
 
 			<main className="px-4 pb-28">
 				{/* Hero */}
-				<section className="mt-2 mb-4">
+				<motion.section
+					className="mt-2 mb-4"
+					initial={{ opacity: 0, y: 20 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.5, delay: 0.2 }}
+				>
 					<h2 className="text-xl font-bold">Craft. Code. Creativity.</h2>
 
 					<p className="mt-3 text-white/90 leading-relaxed">
@@ -155,10 +168,15 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 					</p>
 
 					<hr className="my-4 border-t border-white/10" />
-				</section>
+				</motion.section>
 
 				{/* Who We Are */}
-				<section className="mb-4">
+				<motion.section
+					className="mb-4"
+					initial={{ opacity: 0, x: -20 }}
+					animate={{ opacity: 1, x: 0 }}
+					transition={{ duration: 0.5, delay: 0.3 }}
+				>
 					<h3 className="text-lg font-bold">🌱 Who We Are</h3>
 					<p className="mt-2 text-white/90 leading-relaxed">
 						We’re a <strong>creative technology studio</strong> that bridges{" "}
@@ -173,10 +191,15 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 					</p>
 
 					<hr className="my-4 border-t border-white/10" />
-				</section>
+				</motion.section>
 
 				{/* What We Do */}
-				<section className="mb-4">
+				<motion.section
+					className="mb-4"
+					initial={{ opacity: 0, x: -20 }}
+					animate={{ opacity: 1, x: 0 }}
+					transition={{ duration: 0.5, delay: 0.4 }}
+				>
 					<h3 className="text-lg font-bold">💡 What We Do</h3>
 
 					<div className="mt-3 space-y-3">
@@ -232,10 +255,15 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 					</div>
 
 					<hr className="my-4 border-t border-white/10" />
-				</section>
+				</motion.section>
 
 				{/* Why It Matters */}
-				<section className="mb-6">
+				<motion.section
+					className="mb-6"
+					initial={{ opacity: 0, x: -20 }}
+					animate={{ opacity: 1, x: 0 }}
+					transition={{ duration: 0.5, delay: 0.5 }}
+				>
 					<h3 className="text-lg font-bold">☕ Why It Matters</h3>
 					<p className="mt-2 text-white/90 leading-relaxed">
 						Like a perfect roast or a hand-thrown mug,
@@ -251,10 +279,15 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 					</p>
 
 					<hr className="my-4 border-t border-white/10" />
-				</section>
+				</motion.section>
 
-				{/* Let’s Brew Something Together */}
-				<section className="mb-6">
+				{/* Let's Brew Something Together */}
+				<motion.section
+					className="mb-6"
+					initial={{ opacity: 0, x: -20 }}
+					animate={{ opacity: 1, x: 0 }}
+					transition={{ duration: 0.5, delay: 0.6 }}
+				>
 					<h3 className="text-lg font-bold">
 						🔗 Let’s Brew Something Together
 					</h3>
@@ -291,10 +324,15 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 					</div>
 
 					<hr className="my-4 border-t border-white/10" />
-				</section>
+				</motion.section>
 
 				{/* Demo Automation card (reintroduced) */}
-				<section className="mb-6">
+				<motion.section
+					className="mb-6"
+					initial={{ opacity: 0, scale: 0.9 }}
+					animate={{ opacity: 1, scale: 1 }}
+					transition={{ duration: 0.5, delay: 0.7 }}
+				>
 					<div className="bg-white/6 rounded-xl p-3 flex items-center justify-between">
 						<div>
 							<div className="text-xs text-white/70">Demo Automation</div>
@@ -302,46 +340,63 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 						</div>
 						<DemoToggle />
 					</div>
-				</section>
+				</motion.section>
 
 				{/* Footer */}
-				<section className="mb-8">
+				<motion.section
+					className="mb-8"
+					initial={{ opacity: 0 }}
+					animate={{ opacity: 1 }}
+					transition={{ duration: 0.5, delay: 0.8 }}
+				>
 					<p className="text-white/80">
 						🖤 Made for Creators. Built by sudo.create.
 					</p>
-				</section>
+				</motion.section>
 			</main>
 
 			{/* Bottom nav (mobile friendly) */}
-			<nav className="fixed bottom-0 left-0 right-0 bg-neutral-800/70 backdrop-blur-sm border-t border-white/6 p-3">
+			<motion.nav
+				className="fixed bottom-0 left-0 right-0 bg-neutral-800/70 backdrop-blur-sm border-t border-white/6 p-3"
+				initial={{ opacity: 0, y: 50 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.5, delay: 0.9 }}
+			>
 				<div className="max-w-md mx-auto flex items-center justify-between">
-					<a
-						href="mailto:spapineau@spaptechnology.com"
+					<motion.a
+						href="https://sudocreate.studio/contact"
 						className="text-amber-300 font-medium"
+						target="_blank"
 						rel="noopener noreferrer"
+						whileHover={{ scale: 1.05 }}
+						whileTap={{ scale: 0.95 }}
 					>
 						Start a project
-					</a>
+					</motion.a>
 
-					<a
+					<motion.a
 						href="https://instagram.com/sudo.create"
 						className="text-white/90 font-medium inline-flex items-center gap-2"
 						target="_blank"
 						rel="noopener noreferrer"
+						whileHover={{ scale: 1.05 }}
+						whileTap={{ scale: 0.95 }}
 					>
 						<SiInstagram /> Instagram
-					</a>
+					</motion.a>
 
-					<a
+					<motion.a
 						href="https://sudocreate.studio"
 						className="text-white/90 font-medium"
 						target="_blank"
 						rel="noopener noreferrer"
+						whileHover={{ scale: 1.05 }}
+						whileTap={{ scale: 0.95 }}
 					>
 						Website
-					</a>
+					</motion.a>
 				</div>
-			</nav>
+			</motion.nav>
 		</div>
 	);
 };
