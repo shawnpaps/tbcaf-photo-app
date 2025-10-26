@@ -142,9 +142,7 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 				</motion.button>
 
 				<div className="flex-1 text-center">
-					<div className="text-base font-semibold">
-						☕ sudo.create × Tampa Bay Coffee &amp; Art Festival
-					</div>
+					<div className="text-base font-semibold">☕ sudo.create × TBCAF</div>
 				</div>
 
 				<div className="w-10" />
@@ -158,13 +156,17 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.5, delay: 0.2 }}
 				>
-					<h2 className="text-xl font-bold">Craft. Code. Creativity.</h2>
+					<h2 className="text-xl font-bold">Visuals. Systems. Flow.</h2>
 
 					<p className="mt-3 text-white/90 leading-relaxed">
-						At <strong>sudo.create</strong>, we help coffee roasters, creative
-						brands, and small studios build beautiful, high-performance digital
-						experiences — designed to feel as handcrafted as the work you pour
-						into every cup, canvas, or creation.
+						<strong>sudo.create</strong> is a creative media studio helping
+						coffee roasters and creatives tell their stories through visual
+						storytelling and creative tech.
+					</p>
+
+					<p className="mt-2 text-white/90 leading-relaxed">
+						We blend art and technology to create visuals and systems that move
+						people.
 					</p>
 
 					<hr className="my-4 border-t border-white/10" />
@@ -177,17 +179,16 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 					animate={{ opacity: 1, x: 0 }}
 					transition={{ duration: 0.5, delay: 0.3 }}
 				>
-					<h3 className="text-lg font-bold">🌱 Who We Are</h3>
+					<h3 className="text-lg font-bold">📸 What We Create</h3>
 					<p className="mt-2 text-white/90 leading-relaxed">
-						We’re a <strong>creative technology studio</strong> that bridges{" "}
-						<strong>art, engineering, and automation</strong>.<br />
-						Our team blends design intuition with technical mastery to help
-						creative entrepreneurs scale their craft without losing their soul.
+						We create art that resonates, systems that empower, and stories that
+						move people.
 					</p>
 
 					<p className="mt-2 text-white/90 leading-relaxed">
-						We believe technology should{" "}
-						<strong>amplify your creativity</strong>, not complicate it.
+						Whether you're roasting beans, crafting visuals, or building a brand
+						— we help you turn ideas into experiences that feel{" "}
+						<strong>alive</strong>.
 					</p>
 
 					<hr className="my-4 border-t border-white/10" />
@@ -200,57 +201,34 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 					animate={{ opacity: 1, x: 0 }}
 					transition={{ duration: 0.5, delay: 0.4 }}
 				>
-					<h3 className="text-lg font-bold">💡 What We Do</h3>
+					<h3 className="text-lg font-bold">🎥 Our Services</h3>
 
 					<div className="mt-3 space-y-3">
 						<div>
-							<h4 className="font-semibold">1. Creative Business Launch</h4>
+							<h4 className="font-semibold">Visual Storytelling</h4>
 							<p className="text-white/85 mt-1">
-								Launch your craft online with purpose-built digital systems:
+								Photography and videography that captures the heart of your
+								craft.
 							</p>
 							<ul className="list-disc list-inside mt-2 text-white/80">
-								<li>Brand websites &amp; online stores</li>
-								<li>Booking, ordering, or subscription systems</li>
-								<li>
-									Workflow automation that saves time &amp; keeps you focused on
-									the craft
-								</li>
+								<li>Brand photography &amp; product shoots</li>
+								<li>Event coverage &amp; behind-the-scenes</li>
+								<li>Cinematic storytelling for roasters &amp; creatives</li>
 							</ul>
-							<p className="mt-2 text-white/80 italic">
-								Perfect for coffee roasters, artists, photographers, and makers.
-							</p>
 						</div>
 
 						<div>
-							<h4 className="font-semibold mt-3">2. Studio Partner Program</h4>
+							<h4 className="font-semibold mt-3">
+								Creative Tech &amp; Systems
+							</h4>
 							<p className="text-white/85 mt-1">
-								For agencies, collectives, and studios who need a technical
-								co-creator:
+								Technology that empowers your creativity — not complicates it.
 							</p>
 							<ul className="list-disc list-inside mt-2 text-white/80">
-								<li>Frontend &amp; backend development</li>
-								<li>Integrations, APIs, and custom tools</li>
-								<li>AI &amp; automation to streamline production</li>
+								<li>Websites &amp; digital experiences</li>
+								<li>Content systems &amp; workflow automation</li>
+								<li>Creative strategy &amp; direction</li>
 							</ul>
-							<p className="mt-2 text-white/80 italic">
-								Think of us as your engineering partner — not just a vendor.
-							</p>
-						</div>
-
-						<div>
-							<h4 className="font-semibold mt-3">3. Innovation Lab</h4>
-							<p className="text-white/85 mt-1">
-								Exploring new intersections of creativity and tech:
-							</p>
-							<ul className="list-disc list-inside mt-2 text-white/80">
-								<li>Interactive experiences</li>
-								<li>AI-driven storytelling</li>
-								<li>Immersive brand activations</li>
-								<li>Creative tech prototypes</li>
-							</ul>
-							<p className="mt-2 text-white/80 italic">
-								Where experimentation meets execution.
-							</p>
 						</div>
 					</div>
 
@@ -264,18 +242,20 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 					animate={{ opacity: 1, x: 0 }}
 					transition={{ duration: 0.5, delay: 0.5 }}
 				>
-					<h3 className="text-lg font-bold">☕ Why It Matters</h3>
+					<h3 className="text-lg font-bold">☕ Our Approach</h3>
 					<p className="mt-2 text-white/90 leading-relaxed">
-						Like a perfect roast or a hand-thrown mug,
+						Like pulling the perfect espresso shot,
 						<br />
-						<strong>digital craftsmanship</strong> takes care, iteration, and
-						artistry.
+						<strong>great creative work</strong> takes timing, craft, and care.
 					</p>
 
 					<p className="mt-2 text-white/90 leading-relaxed">
-						We bring that same approach to every project — balancing creativity,
-						technology, and authenticity to help you build something truly
-						special.
+						We approach every project like artists — with intention, rhythm, and
+						a commitment to work that <strong>feels human</strong>.
+					</p>
+
+					<p className="mt-2 text-white/90 leading-relaxed italic">
+						Creativity deserves infrastructure.
 					</p>
 
 					<hr className="my-4 border-t border-white/10" />
@@ -288,9 +268,7 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 					animate={{ opacity: 1, x: 0 }}
 					transition={{ duration: 0.5, delay: 0.6 }}
 				>
-					<h3 className="text-lg font-bold">
-						🔗 Let’s Brew Something Together
-					</h3>
+					<h3 className="text-lg font-bold">🔗 Let's Create</h3>
 
 					<div className="mt-3 space-y-2 text-white/90">
 						<div>
@@ -318,8 +296,8 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 						</div>
 
 						<blockquote className="mt-3 text-white/80 italic border-l-2 border-white/10 pl-3">
-							Whether you’re roasting coffee, painting murals, or building a
-							brand — let’s blend your craft with code.
+							Whether you're roasting coffee, capturing moments, or building a
+							brand — let's tell your story.
 						</blockquote>
 					</div>
 
@@ -350,7 +328,7 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 					transition={{ duration: 0.5, delay: 0.8 }}
 				>
 					<p className="text-white/80">
-						🖤 Made for Creators. Built by sudo.create.
+						🖤 Art meets systems. Built by sudo.create.
 					</p>
 				</motion.section>
 			</main>
@@ -371,7 +349,7 @@ const SudoCreateScreen: React.FC<SudoCreateScreenProps> = ({ onNavigate }) => {
 						whileHover={{ scale: 1.05 }}
 						whileTap={{ scale: 0.95 }}
 					>
-						Start a project
+						Let's create
 					</motion.a>
 
 					<motion.a
